@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Password Generator</title>
+    <script>
+        function generatePassword() {
+            // Получаем значения параметров из элементов формы
+            var length = document.getElementById("length").value;
+            var includeLowercase = document.getElementById("includeLowercase").checked;
+            var includeUppercase = document.getElementById("includeUppercase").checked;
+            var includeNumeric = document.getElementById("includeNumeric").checked;
+            var includeSpecial = document.getElementById("includeSpecial").checked;
+
+            // Формируем URL с параметрами для отправки GET-запроса
+            var url = "/generatePassword?length=" + length
+                + "&includeLowercase=" + includeLowercase
+                + "&includeUppercase=" + includeUppercase
+                + "&includeNumeric=" + includeNumeric
+                + "&includeSpecial=" + includeSpecial;
+
+            // Создаем объект XMLHttpRequest для отправки GET-запроса
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", url, true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // Обновляем элемент сгенерированным паролем
+                    document.getElementById("password").innerText = xhr.responseText;
+                }
+            };
+            xhr.send();
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f7f7f7;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        div {
+            margin-bottom: 10px;
+        }
+        label {
+            display: inline-block;
+            width: 150px;
+            font-weight: bold;
+        }
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 5px;
+        }
+        input[type="number"] {
+            width: 40px;
+            height: 20px;
+            margin-right: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+
+</head>
+<body>
+<h1>Password Generator</h1>
+<div>
+    <label for="password">Сгенерированный пароль:</label>
+    <span id="password"></span>
+</div>
+<div>
+    <label for="length">Длина:</label>
+    <input type="number" id="length" value="8">
+</div>
+<div>
+    <label for="includeLowercase">Строчные буквы:</label>
+    <input type="checkbox" id="includeLowercase" checked>
+</div>
+<div>
+    <label for="includeUppercase">Заглавные буквы:</label>
+    <input type="checkbox" id="includeUppercase" checked>
+</div>
+<div>
+    <label for="includeNumeric">Числа:</label>
+    <input type="checkbox" id="includeNumeric" checked>
+</div>
+<div>
+    <label for="includeSpecial">Символы:</label>
+    <input type="checkbox" id="includeSpecial" checked>
+</div>
+<button onclick="generatePassword()">Generate Password</button>
+</body>
+</html>
